@@ -29,49 +29,40 @@ const printCell = (cell, state) => {
 
 const corners = (state = []) => {
   let corn = {
-    topRight: ([] = [0, 0]),
-    bottomLeft: ([] = [0, 0]),
+    topRight: [0, 0],
+    bottomLeft: [0, 0],
   };
-  if (state.length != 0) {
-    for (const cell of state) {
-      if (cell[0] >= corn.bottomLeft[0] && corn.bottomLeft[0] === 0) {
-        corn.bottomLeft[0] = cell[0];
-        if (cell[1] > 1) {
-          corn.bottomLeft[1] = --cell[1];
-        } else {
-          corn.bottomLeft[1] = cell[1];
-        }
-      } else if (cell[0] < corn.bottomLeft[0]) {
-        corn.bottomLeft[0] = cell[0];
-        if (cell[1] > 1) {
-          corn.bottomLeft[1] = --cell[1];
-        } else {
-          corn.bottomLeft[1] = cell[1];
-        }
-      } else if (
-        cell[0] == corn.bottomLeft[0] &&
-        cell[1] < corn.bottomLeft[1]
-      ) if (cell[1] > 1) {
-        corn.bottomLeft[1] = --cell[1];
-      } else {
-        corn.bottomLeft[1] = cell[1];
-        }
+  if (state.length !== 0) {
+    const xValues = state.map(([x,_]) => x);
+    const yValues = state.map(([_,y]) => y);
 
-      if (corn.topRight[0] === 0 && cell[0] >= corn.topRight[0]) {
-        corn.topRight[0] = cell[0];
-        corn.topRight[1] = ++cell[1];
-      } else if (cell[0] > corn.topRight[0]) {
-        corn.topRight[0] = cell[0];
-        corn.topRight[1] = ++cell[1];
-      } else if (cell[0] == corn.topRight[0] && cell[1] > corn.topRight[1]) {
-        corn.topRight[1] = ++cell[1];
-      }
-    } return corn;
+    corn.topRight = [Math.max(...xValues), Math.max(...yValues)],
+    corn.bottomLeft = [Math.min(...xValues), Math.min(...yValues)];
   }
+  return corn;
+};
 
-const printCells = (state) => {};
+const printCells = (state) => {
+  const {bottomLeft,topRight} = corners(state);  
+  let result = "";
+  for (let y = topRight[1]; y >= bottomLeft[1]; y--) {
+    let row = [];
+    for (let x = bottomLeft[0]; x <= topRight[0]; x++) {
+      row.push(printCell([x, y], state));
+    }
+    result += row.join(" ") + "\n";
+  }
+  return result;
+};
 
-const getNeighborsOf = ([x, y]) => {};
+const getNeighborsOf = ([x, y]) => {
+  let neighbors = [];
+  if (x-1 !== 0){
+    
+  }
+    
+  
+};
 
 const getLivingNeighbors = (cell, state) => {};
 
