@@ -90,15 +90,15 @@ const calculateNext = (state) => {
 };
 
 const iterate = (state, iterations) => {
-  
-  if (iterations < 1) return;
-
-  printCells(state);
-  iterate(calculateNext(state), iterations-1);
+  const states = [state];
+  for (let i = 0; i < iterations; i++) {
+    states.push(calculateNext(state[states.length - 1]));
+  }
 }
 
 const main = (pattern, iterations) => {
- iterate(startPatterns[pattern], iterations);
+ const results = iterate(startPatterns[pattern],iterations)
+ results.forEach(result => console.log(printCells(result)))
 };
 
 const startPatterns = {
